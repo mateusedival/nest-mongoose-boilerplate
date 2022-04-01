@@ -6,9 +6,9 @@ nest g resource modules/products
 
 
 ## TODO:
-  - [ ] mongodb and schemas
+  - [x] mongodb and schemas
     - [x] user
-    - [ ] product
+    - [x] product
   - [x] config
     - [x] database auth
   - [ ] abstract repositories
