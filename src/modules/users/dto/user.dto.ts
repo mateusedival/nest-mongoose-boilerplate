@@ -9,7 +9,7 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ name: 'username', example: 'admin', required: true })
+  @ApiProperty({ example: 'admin', required: true })
   username: string;
 
   @IsNotEmpty()

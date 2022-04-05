@@ -7,11 +7,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     return this.userModel.create(createUserDto);
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     return this.userModel.find();
   }
 
@@ -19,7 +19,7 @@ export class UsersRepository {
     filter: FilterQuery<UserDocument>,
     projection?: any,
     options?: QueryOptions,
-  ): Promise<User> {
+  ): Promise<UserDocument> {
     return this.userModel.findOne(filter, projection, options);
   }
 
@@ -27,7 +27,7 @@ export class UsersRepository {
     filter: FilterQuery<UserDocument>,
     projection?: any,
     options?: QueryOptions,
-  ): Promise<User[]> {
+  ): Promise<UserDocument[]> {
     return this.userModel.findOne(filter, projection, options);
   }
 
@@ -35,7 +35,7 @@ export class UsersRepository {
     _id: string,
     projection?: any,
     options?: QueryOptions,
-  ): Promise<User> {
+  ): Promise<UserDocument> {
     return this.userModel.findById(_id, projection, options);
   }
 
@@ -43,7 +43,7 @@ export class UsersRepository {
     _id: string,
     updateUser: UpdateUserDto,
     options?: QueryOptions,
-  ): Promise<User> {
+  ): Promise<UserDocument> {
     return this.userModel.findByIdAndUpdate(_id, updateUser, {
       ...options,
       new: true,
