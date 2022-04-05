@@ -19,7 +19,7 @@ nest g resource modules/products
   - [ ] interceptors for validation/parsing
   - [ ] unit testing
   - [ ] e2e testing
-  - [ ] logger
+  - [x] logger
   - [ ] interceptor for serializing response
   - [ ] caching
   - [ ] authorization
