@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './products.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
-import { GenericRepository } from 'src/shared/database/repository/generic.repository';
+import { GenericRepository } from '../../shared/database/repository/generic.repository';
 
 export class ProductsRepository extends GenericRepository<ProductDocument> {
   constructor(
