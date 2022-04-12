@@ -11,16 +11,16 @@ nest g resource modules/products
     - [x] product
   - [x] config
     - [x] database auth
-  - [ ] abstract repositories
   - [x] Documentation with swagger
+  - [x] logger
   - [x] authentication
     - [x] jwt/local strategy
-    - [ ] hashing passwords
+    - [x] hashing passwords
   - [x] interceptors for validation/parsing
+  - [ ] abstract repositories
   - [ ] unit testing
   - [ ] e2e testing
-  - [x] logger
-  - [ ] interceptor for serializing response
+  - [ ] interceptor for serializing response?
   - [ ] caching
   - [ ] authorization
   - [ ] constants?

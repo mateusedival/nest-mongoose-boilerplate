@@ -1,8 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './users.schema';
-import { Model, FilterQuery, QueryOptions } from 'mongoose';
+import { Model, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
@@ -41,7 +40,7 @@ export class UsersRepository {
 
   async findByIdAndUpdate(
     _id: string,
-    updateUser: UpdateUserDto,
+    updateUser: UpdateQuery<UserDocument>,
     options?: QueryOptions,
   ): Promise<UserDocument> {
     return this.userModel.findByIdAndUpdate(_id, updateUser, {

@@ -16,6 +16,7 @@ export class AuthService {
     const user = await this.usersService.findByUsername(username);
 
     if (user && (await argon2.verify(user.password, pass))) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }

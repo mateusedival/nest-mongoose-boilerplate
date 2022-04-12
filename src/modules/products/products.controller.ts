@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -24,7 +25,8 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Request() req) {
+    console.log(req.user);
     return this.productsService.findAll();
   }
 

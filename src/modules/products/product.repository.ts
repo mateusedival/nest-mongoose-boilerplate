@@ -1,19 +1,18 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './products.schema';
-import { Model, FilterQuery, QueryOptions } from 'mongoose';
+import { Model, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
 export class ProductsRepository {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async create(createProductDto: CreateProductDto): Promise<ProductDocument> {
     return this.productModel.create(createProductDto);
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<ProductDocument[]> {
     return this.productModel.find();
   }
 
@@ -37,15 +36,15 @@ export class ProductsRepository {
     _id: string,
     projection?: any,
     options?: QueryOptions,
-  ): Promise<Product> {
+  ): Promise<ProductDocument> {
     return this.productModel.findById(_id, projection, options);
   }
 
   async findByIdAndUpdate(
     _id: string,
-    updateProduct: UpdateProductDto,
+    updateProduct: UpdateQuery<ProductDocument>,
     options?: QueryOptions,
-  ): Promise<Product> {
+  ): Promise<ProductDocument> {
     return this.productModel.findByIdAndUpdate(_id, updateProduct, {
       ...options,
       new: true,
