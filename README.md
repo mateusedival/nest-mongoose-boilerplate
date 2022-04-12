@@ -17,7 +17,7 @@ nest g resource modules/products
     - [x] jwt/local strategy
     - [x] hashing passwords
   - [x] interceptors for validation/parsing
-  - [ ] abstract repositories
+  - [x] abstract repositories
   - [ ] unit testing
   - [ ] e2e testing
   - [ ] interceptor for serializing response?

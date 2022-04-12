@@ -19,7 +19,7 @@ export class ProductsService {
   }
 
   update(id: string, updateProductDto: UpdateProductDto) {
-    return this.productsRepository.findByIdAndDelete(id, updateProductDto);
+    return this.productsRepository.findByIdAndUpdate(id, updateProductDto);
   }
 
   remove(id: string) {
