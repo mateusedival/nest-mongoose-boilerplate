@@ -22,6 +22,6 @@ nest g resource modules/products
     - [x] controllers and services
     - [ ] repository 
   - [x] e2e testing
-  - [ ] caching
+  - [x] caching
   - [ ] authorization
   - [ ] constants?

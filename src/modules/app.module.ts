@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+} from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
@@ -6,12 +11,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import LogsMiddleware from '../shared/middlewares/logs.middleware';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     ProductsModule,
+    CacheModule.register({
+      isGlobal: true,
+    }),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
@@ -30,6 +39,7 @@ import LogsMiddleware from '../shared/middlewares/logs.middleware';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
+        console.log(configService.get('NODE_ENV'));
         if (configService.get('NODE_ENV') === 'test') {
           const username = configService.get('TEST_DATABASE_USER');
           const password = configService.get('TEST_DATABASE_PASSWORD');
@@ -56,6 +66,12 @@ import LogsMiddleware from '../shared/middlewares/logs.middleware';
       },
       inject: [ConfigService],
     }),
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
   ],
 })
 export class AppModule {
