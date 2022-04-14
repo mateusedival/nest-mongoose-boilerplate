@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './users.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
-import { GenericRepository } from 'src/shared/database/repository/generic.repository';
+import { GenericRepository } from '../../shared/database/repository/generic.repository';
 
 export class UsersRepository extends GenericRepository<UserDocument> {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {

@@ -6,12 +6,14 @@ import { ValidationPipe } from '../src/shared/pipes/validation.pipe';
 import { ConfigService } from '@nestjs/config';
 import { Connection, createConnection, isValidObjectId } from 'mongoose';
 
-describe('ProductsController (e2e)', () => {
+// TODO: tests run in parallel, diasable it
+
+describe('UsersController (e2e)', () => {
   let app: INestApplication;
   let connection: Connection;
   let configService: ConfigService;
   let jwtToken: string;
-  let productId: string;
+  let userId: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -99,30 +101,28 @@ describe('ProductsController (e2e)', () => {
     });
   });
 
-  describe('(POST) /products', () => {
-    test('should create a product', async () => {
+  describe('(POST) /users', () => {
+    test('should create an user', async () => {
       const response = await request(app.getHttpServer())
-        .post('/products')
+        .post('/users')
         .auth(jwtToken, { type: 'bearer' })
-        .send({ name: 'T-shirt', description: 'confy', quantity: 10, price: 2 })
+        .send({ name: 'Charlie', password: '123', username: 'XxX_charlie_XxX' })
         .expect(201);
 
       expect(response.body).toMatchObject({
-        name: 'T-shirt',
-        description: 'confy',
-        quantity: 10,
-        price: 2,
+        name: 'Charlie',
+        username: 'XxX_charlie_XxX',
       });
 
       const isValid = isValidObjectId(response.body._id);
       expect(isValid).toBe(true);
-      productId = response.body._id;
+      userId = response.body._id;
     });
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
-        .post('/products')
-        .send({ name: 'T-shirt', description: 'confy', quantity: 10, price: 2 })
+        .post('/users')
+        .send({ name: 'Charlie', password: '123', username: 'XxX_charlie_XxX' })
         .expect(401);
 
       expect(response.body).toMatchObject({
@@ -132,20 +132,19 @@ describe('ProductsController (e2e)', () => {
     });
   });
 
-  describe('(GET) /products', () => {
-    test('should should get all products', async () => {
+  describe('(GET) /users', () => {
+    test('should should get all users', async () => {
       const response = await request(app.getHttpServer())
-        .get('/products')
+        .get('/users')
         .auth(jwtToken, { type: 'bearer' })
         .expect(200);
 
       expect(response.body).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            name: 'T-shirt',
-            description: 'confy',
-            quantity: 10,
-            price: 2,
+            _id: userId,
+            name: 'Charlie',
+            username: 'XxX_charlie_XxX',
           }),
         ]),
       );
@@ -153,7 +152,7 @@ describe('ProductsController (e2e)', () => {
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
-        .get('/products')
+        .get('/users')
         .expect(401);
 
       expect(response.body).toMatchObject({
@@ -163,25 +162,23 @@ describe('ProductsController (e2e)', () => {
     });
   });
 
-  describe('(GET) /products/:id', () => {
+  describe('(GET) /users/:id', () => {
     test('should get an user', async () => {
       const response = await request(app.getHttpServer())
-        .get(`/products/${productId}`)
+        .get(`/users/${userId}`)
         .auth(jwtToken, { type: 'bearer' })
         .expect(200);
 
       expect(response.body).toMatchObject({
-        _id: productId,
-        name: 'T-shirt',
-        description: 'confy',
-        quantity: 10,
-        price: 2,
+        _id: userId,
+        name: 'Charlie',
+        username: 'XxX_charlie_XxX',
       });
     });
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
-        .get(`/products/${productId}`)
+        .get(`/users/${userId}`)
         .expect(401);
 
       expect(response.body).toMatchObject({
@@ -191,27 +188,25 @@ describe('ProductsController (e2e)', () => {
     });
   });
 
-  describe('(PATCH) /products/:id', () => {
+  describe('(PATCH) /users/:id', () => {
     test('should update an user', async () => {
       const response = await request(app.getHttpServer())
-        .patch(`/products/${productId}`)
+        .patch(`/users/${userId}`)
         .auth(jwtToken, { type: 'bearer' })
-        .send({ quantity: 8 })
+        .send({ name: 'Charlie Todd' })
         .expect(200);
 
       expect(response.body).toMatchObject({
-        _id: productId,
-        name: 'T-shirt',
-        description: 'confy',
-        quantity: 8,
-        price: 2,
+        _id: userId,
+        name: 'Charlie Todd',
+        username: 'XxX_charlie_XxX',
       });
     });
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
-        .patch(`/products/${productId}`)
-        .send({ quantity: 8 })
+        .patch(`/users/${userId}`)
+        .send({ name: 'Charlie Todd' })
         .expect(401);
 
       expect(response.body).toMatchObject({
@@ -221,25 +216,23 @@ describe('ProductsController (e2e)', () => {
     });
   });
 
-  describe('(DELETE) /products/:id', () => {
+  describe('(DELETE) /users/:id', () => {
     test('should delete an user', async () => {
       const response = await request(app.getHttpServer())
-        .delete(`/products/${productId}`)
+        .delete(`/users/${userId}`)
         .auth(jwtToken, { type: 'bearer' })
         .expect(200);
 
       expect(response.body).toMatchObject({
-        _id: productId,
-        name: 'T-shirt',
-        description: 'confy',
-        quantity: 8,
-        price: 2,
+        _id: userId,
+        name: 'Charlie Todd',
+        username: 'XxX_charlie_XxX',
       });
     });
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
-        .delete(`/products/${productId}`)
+        .delete(`/users/${userId}`)
         .expect(401);
 
       expect(response.body).toMatchObject({
