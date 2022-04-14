@@ -19,8 +19,9 @@ nest g resource modules/products
   - [x] interceptors for validation/parsing
   - [x] abstract repositories
   - [ ] unit testing
-  - [ ] e2e testing
-  - [ ] interceptor for serializing response?
+    - [x] controllers and services
+    - [ ] repository 
+  - [x] e2e testing
   - [ ] caching
   - [ ] authorization
   - [ ] constants?
