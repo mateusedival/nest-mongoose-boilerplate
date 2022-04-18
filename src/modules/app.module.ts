@@ -39,7 +39,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        console.log(configService.get('NODE_ENV'));
         if (configService.get('NODE_ENV') === 'test') {
           const username = configService.get('TEST_DATABASE_USER');
           const password = configService.get('TEST_DATABASE_PASSWORD');

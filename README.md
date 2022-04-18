@@ -1,10 +1,3 @@
-nest new nest-mongoose-boilerplate
-
-nest g resource modules/auth
-nest g resource modules/users
-nest g resource modules/products
-
-
 ## TODO:
   - [x] mongodb and schemas
     - [x] user
@@ -23,5 +16,3 @@ nest g resource modules/products
     - [ ] repository 
   - [x] e2e testing
   - [x] caching
-  - [ ] authorization
-  - [ ] constants?
