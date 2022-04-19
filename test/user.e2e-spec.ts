@@ -78,14 +78,14 @@ describe('UsersController (e2e)', () => {
   });
 
   describe('(POST) /auth/login', () => {
-    test('should give an acess_token', async () => {
+    test('should give an access_token', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/login')
         .send({ password: 'admin', username: 'admin' })
         .expect(201);
 
-      expect(response.body).toHaveProperty('acess_token');
-      jwtToken = response.body.acess_token;
+      expect(response.body).toHaveProperty('access_token');
+      jwtToken = response.body.access_token;
     });
 
     test('should fail because user doesnt exist', async () => {
