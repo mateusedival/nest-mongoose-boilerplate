@@ -5,11 +5,15 @@ import { AppModule } from '../src/modules/app.module';
 import { ValidationPipe } from '../src/shared/pipes/validation.pipe';
 import { ConfigService } from '@nestjs/config';
 import { Connection, createConnection, isValidObjectId } from 'mongoose';
+import { UserDocument } from '../src/modules/users/users.schema';
+import { UsersRepository } from '../src/modules/users/users.repository';
 
 describe('ProductsController (e2e)', () => {
   let app: INestApplication;
   let connection: Connection;
   let configService: ConfigService;
+  let usersRepository: UsersRepository;
+  let user: UserDocument;
   let jwtToken: string;
   let productId: string;
 
@@ -23,6 +27,7 @@ describe('ProductsController (e2e)', () => {
     await app.init();
 
     configService = moduleFixture.get<ConfigService>(ConfigService);
+    usersRepository = moduleFixture.get<UsersRepository>(UsersRepository);
 
     const username = configService.get('TEST_DATABASE_USER');
     const password = configService.get('TEST_DATABASE_PASSWORD');
@@ -48,6 +53,9 @@ describe('ProductsController (e2e)', () => {
       });
       const isValid = isValidObjectId(response.body._id);
       expect(isValid).toBe(true);
+
+      user = response.body;
+      usersRepository.findByIdAndUpdate(user._id, { hasAdmin: true });
     });
 
     test('should fail because requires a username', async () => {
@@ -234,6 +242,20 @@ describe('ProductsController (e2e)', () => {
         description: 'confy',
         quantity: 8,
         price: 2,
+      });
+    });
+
+    test('should fail because user does not have permission', async () => {
+      usersRepository.findByIdAndUpdate(user._id, { hasAdmin: false });
+
+      const response = await request(app.getHttpServer())
+        .delete(`/products/${productId}`)
+        .auth(jwtToken, { type: 'bearer' })
+        .expect(403);
+
+      expect(response.body).toMatchObject({
+        statusCode: 403,
+        message: 'Forbidden resource',
       });
     });
 

@@ -16,3 +16,8 @@
     - [ ] repository 
   - [x] e2e testing
   - [x] caching
+  - [ ] authorization
+
+  RBAC
+    make it simple
+    in other branch use CASL to build policy based authorization

@@ -6,6 +6,7 @@ export const userStubWithPwd = (): UserDto => {
     _id: 'wqerwtyru',
     name: 'test',
     password: 'test',
+    hasAdmin: false,
     username: 'test',
   };
 };
@@ -15,6 +16,7 @@ export const userStub = () => {
     _id: 'wqerwtyru',
     name: 'test',
     username: 'test',
+    hasAdmin: false,
   };
 };
 
@@ -23,10 +25,12 @@ export const userDocumentStub = () => {
     _id: 'wqerwtyru',
     name: 'test',
     username: 'test',
+    hasAdmin: false,
     toObject: jest.fn().mockReturnValue({
       _id: 'wqerwtyru',
       name: 'test',
       username: 'test',
+      hasAdmin: false,
     }),
   };
 };
@@ -37,11 +41,13 @@ export const userDocumentStubWithPwd = () => {
     name: 'test',
     username: 'test',
     password: 'test',
+    hasAdmin: false,
     toObject: jest.fn().mockReturnValue({
       _id: 'wqerwtyru',
       name: 'test',
       username: 'test',
       password: 'test',
+      hasAdmin: false,
     }),
   };
 };
