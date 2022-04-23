@@ -14,13 +14,17 @@ export class ProductsService {
     createProductDto: CreateProductDto,
     figure: Express.Multer.File,
   ) {
-    console.log(figure);
-    const a = await this.fileService.uploadFile({
-      buffer: figure.buffer,
-      key: 'adfsd',
+    const { buffer, mimetype, originalname } = figure;
+
+    const { Location, Key } = await this.fileService.uploadFile({
+      buffer: buffer,
+      key: originalname,
     });
-    console.log('product service', a);
-    return this.productsRepository.create(createProductDto);
+
+    return this.productsRepository.create({
+      figure: { mimetype, url: Location, key: Key },
+      ...createProductDto,
+    });
   }
 
   findAll() {
@@ -35,7 +39,9 @@ export class ProductsService {
     return this.productsRepository.findByIdAndUpdate(id, updateProductDto);
   }
 
-  remove(id: string) {
-    return this.productsRepository.findByIdAndDelete(id);
+  async remove(id: string) {
+    const product = await this.productsRepository.findByIdAndDelete(id);
+    await this.fileService.deleteFile(product.figure.key);
+    return product;
   }
 }

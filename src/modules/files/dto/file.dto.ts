@@ -6,7 +6,6 @@ export class FileDto {
   @IsString()
   @ApiProperty({
     example: '6216e93be43b2e9aedb76504',
-    required: true,
   })
   _id: string;
 

@@ -24,11 +24,33 @@ export class ProductsController {
   @Post()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('figure'))
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        figure: {
+          type: 'file',
+          description: 'Img to be uploaded',
+        },
+        description: {
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        quantity: {
+          type: 'integer',
+        },
+        price: {
+          type: 'integer',
+        },
+      },
+    },
+  })
   create(
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() figure: Express.Multer.File,
   ) {
-    //TODO: make swagger work
     return this.productsService.create(createProductDto, figure);
   }
 

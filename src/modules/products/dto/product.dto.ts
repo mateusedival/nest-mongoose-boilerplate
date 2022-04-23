@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import FileDto from 'src/modules/files/dto/file.dto';
 
@@ -19,16 +20,18 @@ export class ProductDto {
   description: string;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
-  @ApiProperty({ name: 'price', example: 10 })
+  @ApiProperty({ name: 'price' })
   price: number;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
-  @ApiProperty({ name: 'quantity', example: 5 })
+  @ApiProperty({ name: 'quantity' })
   quantity: number;
 
   @IsOptional()
   @ApiProperty({ name: 'figure', type: FileDto, required: false })
-  figure: FileDto;
+  figure?: FileDto;
 }
