@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import FileDto from 'src/modules/files/dto/file.dto';
 
 export class ProductDto {
   @IsNotEmpty()
@@ -9,7 +10,7 @@ export class ProductDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ name: 'name', example: 'Cozy Shirt' })
+  @ApiProperty({ name: 'name', example: 'Cozy Shirt', required: true })
   name: string;
 
   @IsNotEmpty()
@@ -26,4 +27,8 @@ export class ProductDto {
   @IsNumber()
   @ApiProperty({ name: 'quantity', example: 5 })
   quantity: number;
+
+  @IsOptional()
+  @ApiProperty({ name: 'figure', type: FileDto, required: false })
+  figure: FileDto;
 }
