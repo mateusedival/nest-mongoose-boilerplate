@@ -22,12 +22,12 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: 'admin' })
   password: string;
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: 'admin' })
   name: string;
 
   @IsNotEmpty()
