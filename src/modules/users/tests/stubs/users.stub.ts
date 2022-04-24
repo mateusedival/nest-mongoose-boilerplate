@@ -1,12 +1,11 @@
 import { UpdateUserDto } from '../../dto/update-user.dto';
-import { UserDto } from '../../dto/user.dto';
 
-export const userStubWithPwd = (): UserDto => {
+export const userStubWithPwd = () => {
   return {
     _id: 'wqerwtyru',
     name: 'test',
-    password: 'test',
     username: 'test',
+    token: 'xxx',
   };
 };
 
@@ -15,6 +14,7 @@ export const userStub = () => {
     _id: 'wqerwtyru',
     name: 'test',
     username: 'test',
+    token: 'xxx',
   };
 };
 
@@ -23,10 +23,12 @@ export const userDocumentStub = () => {
     _id: 'wqerwtyru',
     name: 'test',
     username: 'test',
+    token: 'xxx',
     toObject: jest.fn().mockReturnValue({
       _id: 'wqerwtyru',
       name: 'test',
       username: 'test',
+      token: 'xxx',
     }),
   };
 };
@@ -36,12 +38,12 @@ export const userDocumentStubWithPwd = () => {
     _id: 'wqerwtyru',
     name: 'test',
     username: 'test',
-    password: 'test',
+    token: 'xxx',
     toObject: jest.fn().mockReturnValue({
       _id: 'wqerwtyru',
       name: 'test',
       username: 'test',
-      password: 'test',
+      token: 'xxx',
     }),
   };
 };
@@ -50,5 +52,6 @@ export const updateUserStub = (): UpdateUserDto => {
   return {
     name: 'test_1',
     username: 'test',
+    token: 'xxx',
   };
 };

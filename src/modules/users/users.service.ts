@@ -1,13 +1,17 @@
-import * as argon2 from 'argon2';
+import { Types } from 'mongoose';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly authService: AuthService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.findByUsername(createUserDto.username);
@@ -16,19 +20,18 @@ export class UsersService {
       throw new BadRequestException('Username already in use');
     }
 
-    const hashedPassword = await argon2.hash(createUserDto.password, {
-      type: 2,
+    const _id = new Types.ObjectId().toHexString();
+
+    const { access_token } = await this.authService.createToken({
+      _id,
+      username: createUserDto.username,
     });
 
-    const result = await this.usersRepository.create({
+    return this.usersRepository.create({
       ...createUserDto,
-      password: hashedPassword,
+      _id,
+      token: access_token,
     });
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...newUser } = result.toObject();
-
-    return newUser;
   }
 
   findAll() {
@@ -36,11 +39,7 @@ export class UsersService {
   }
 
   findByUsername(username: string) {
-    return this.usersRepository.findOne(
-      { username },
-      { password: 1 },
-      { lean: true },
-    );
+    return this.usersRepository.findOne({ username }, {}, { lean: true });
   }
 
   findById(id: string) {

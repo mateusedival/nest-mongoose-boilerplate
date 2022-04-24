@@ -15,10 +15,13 @@ export class UserDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({ example: 'admin' })
-  password: string;
+  name: string;
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ example: 'admin' })
-  name: string;
+  @ApiProperty({
+    example: 'test_token',
+    required: true,
+  })
+  token: string;
 }

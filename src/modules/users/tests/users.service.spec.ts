@@ -30,13 +30,12 @@ describe('UsersService', () => {
     let user;
 
     beforeEach(async () => {
-      user = await usersService.create(userStubWithPwd());
+      user = await usersService.create(userStub());
     });
 
     test('should call usersRepository', () => {
       expect(usersRepository.create).toBeCalledWith({
         ...userStub(),
-        password: '12345678',
       });
     });
 

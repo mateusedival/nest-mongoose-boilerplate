@@ -1,4 +1,10 @@
-import { OmitType } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 import { UserDto } from './user.dto';
 
-export class CreateUserDto extends OmitType(UserDto, ['_id']) {}
+export class CreateUserDto extends UserDto {
+  @IsOptional()
+  _id: string;
+
+  @IsOptional()
+  token: string;
+}
