@@ -1,6 +1,3 @@
-import { ProductDto } from '../../dto/product.dto';
-import { UpdateProductDto } from '../../dto/update-product.dto';
-
 export const productStub = () => {
   return {
     _id: '626c455e7f15293bfe1ce085',
