@@ -36,7 +36,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(POST) /auth/register', () => {
-    test('should register an user', async () => {
+    test('should register a product', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/register')
         .send({ name: 'admin', password: 'admin', username: 'admin' })
@@ -164,7 +164,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(GET) /products/:id', () => {
-    test('should get an user', async () => {
+    test('should get a product', async () => {
       const response = await request(app.getHttpServer())
         .get(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
@@ -192,7 +192,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(PATCH) /products/:id', () => {
-    test('should update an user', async () => {
+    test('should update a product', async () => {
       const response = await request(app.getHttpServer())
         .patch(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
@@ -222,7 +222,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(DELETE) /products/:id', () => {
-    test('should delete an user', async () => {
+    test('should delete a product', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
