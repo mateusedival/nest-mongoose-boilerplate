@@ -1,7 +1,7 @@
 import { ProductDto } from '../../dto/product.dto';
 import { UpdateProductDto } from '../../dto/update-product.dto';
 
-export const productStub = (): ProductDto => {
+export const productStub = () => {
   return {
     _id: '626c455e7f15293bfe1ce085',
     name: 'Test',
@@ -11,7 +11,7 @@ export const productStub = (): ProductDto => {
   };
 };
 
-export const updateProductStub = (): UpdateProductDto => {
+export const updateProductStub = () => {
   return {
     name: 'Test 2',
     description: 'Confy',

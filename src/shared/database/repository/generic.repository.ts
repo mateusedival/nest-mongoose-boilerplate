@@ -65,7 +65,7 @@ export abstract class GenericRepository<T> {
       .exec();
   }
 
-  async findByIdAndDelete(_id: string, options?: QueryOptions): Promise<any> {
+  async findByIdAndDelete(_id: string, options?: QueryOptions): Promise<T> {
     return this.genericModel.findByIdAndDelete(_id, { options }).exec();
   }
 

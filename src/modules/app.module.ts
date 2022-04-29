@@ -12,6 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import LogsMiddleware from '../shared/middlewares/logs.middleware';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -33,6 +34,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
         TEST_DATABASE_USER: Joi.string().required(),
         TEST_DATABASE_PASSWORD: Joi.string().required(),
         TEST_DATABASE_NAME: Joi.string().required(),
+        S3_ACCESS_KEY_ID: Joi.string().required(),
+        S3_SECRET_ACCESS_KEY: Joi.string().required(),
       }),
       isGlobal: true,
     }),
@@ -65,6 +68,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       },
       inject: [ConfigService],
     }),
+    FilesModule,
   ],
   providers: [
     {
