@@ -8,7 +8,7 @@ import { ProductsRepository } from './products.repository';
 export class ProductsService {
   constructor(
     private readonly productsRepository: ProductsRepository,
-    private readonly fileService: FilesService,
+    private readonly filesService: FilesService,
   ) {}
   async create(
     createProductDto: CreateProductDto,
@@ -16,7 +16,7 @@ export class ProductsService {
   ) {
     const { buffer, mimetype, originalname } = figure;
 
-    const { Location, Key } = await this.fileService.uploadFile({
+    const { Location, Key } = await this.filesService.uploadFile({
       buffer: buffer,
       key: originalname,
     });
@@ -41,7 +41,7 @@ export class ProductsService {
 
   async remove(id: string) {
     const product = await this.productsRepository.findByIdAndDelete(id);
-    await this.fileService.deleteFile(product.figure.key);
+    await this.filesService.deleteFile(product.figure.key);
     return product;
   }
 }

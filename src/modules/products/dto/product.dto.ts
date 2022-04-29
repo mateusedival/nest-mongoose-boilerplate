@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import FileDto from 'src/modules/files/dto/file.dto';
+import FileDto from '../../files/dto/file.dto';
 
 export class ProductDto {
   @IsNotEmpty()

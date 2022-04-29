@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from '../products.controller';
 import { ProductDocument } from '../products.schema';
 import { ProductsService } from '../products.service';
-import { productStub, updateProductStub } from './stubs/products.stub';
+import { filesStub } from './stubs/files.stub';
+import {
+  createProductStub,
+  productStub,
+  updateProductStub,
+} from './stubs/products.stub';
 
 jest.mock('../products.service.ts');
 
@@ -24,11 +29,17 @@ describe('ProductsController', () => {
     let product: ProductDocument;
 
     beforeEach(async () => {
-      product = await productsController.create(productStub());
+      product = await productsController.create(
+        createProductStub(),
+        filesStub(),
+      );
     });
 
     test('should call productsServices', () => {
-      expect(productsService.create).toBeCalledWith(productStub());
+      expect(productsService.create).toBeCalledWith(
+        createProductStub(),
+        filesStub(),
+      );
     });
 
     test('should return a product', () => {
