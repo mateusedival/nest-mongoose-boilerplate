@@ -5,6 +5,7 @@ import { AppModule } from '../src/modules/app.module';
 import { ValidationPipe } from '../src/shared/pipes/validation.pipe';
 import { ConfigService } from '@nestjs/config';
 import { Connection, createConnection, isValidObjectId } from 'mongoose';
+import { config } from 'aws-sdk';
 
 describe('ProductsController (e2e)', () => {
   let app: INestApplication;
@@ -12,6 +13,7 @@ describe('ProductsController (e2e)', () => {
   let configService: ConfigService;
   let jwtToken: string;
   let productId: string;
+  let figureKey: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -33,10 +35,17 @@ describe('ProductsController (e2e)', () => {
       auth: { username, password },
       authSource: 'admin',
     });
+
+    config.update({
+      credentials: {
+        accessKeyId: configService.get<string>('S3_ACCESS_KEY_ID'),
+        secretAccessKey: configService.get<string>('S3_SECRET_ACCESS_KEY'),
+      },
+    });
   });
 
   describe('(POST) /auth/register', () => {
-    test('should register an user', async () => {
+    test('should register a product', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/register')
         .send({ name: 'admin', password: 'admin', username: 'admin' })
@@ -76,7 +85,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(POST) /auth/login', () => {
-    test('should give an access_token', async () => {
+    test('should give a access_token', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/login')
         .send({ password: 'admin', username: 'admin' })
@@ -104,7 +113,11 @@ describe('ProductsController (e2e)', () => {
       const response = await request(app.getHttpServer())
         .post('/products')
         .auth(jwtToken, { type: 'bearer' })
-        .send({ name: 'T-shirt', description: 'confy', quantity: 10, price: 2 })
+        .attach('figure', `${__dirname}/files/linux.png`)
+        .field('name', 'T-shirt')
+        .field('description', 'confy')
+        .field('quantity', 10)
+        .field('price', 2)
         .expect(201);
 
       expect(response.body).toMatchObject({
@@ -112,17 +125,23 @@ describe('ProductsController (e2e)', () => {
         description: 'confy',
         quantity: 10,
         price: 2,
+        figure: { mimetype: 'image/png' },
       });
 
       const isValid = isValidObjectId(response.body._id);
       expect(isValid).toBe(true);
       productId = response.body._id;
+      figureKey = response.body.figure.key;
     });
 
     test('should fail because is not logged', async () => {
       const response = await request(app.getHttpServer())
         .post('/products')
-        .send({ name: 'T-shirt', description: 'confy', quantity: 10, price: 2 })
+        .attach('figure', `${__dirname}/files/linux.png`)
+        .field('name', 'T-shirt')
+        .field('description', 'confy')
+        .field('quantity', 10)
+        .field('price', 2)
         .expect(401);
 
       expect(response.body).toMatchObject({
@@ -146,6 +165,10 @@ describe('ProductsController (e2e)', () => {
             description: 'confy',
             quantity: 10,
             price: 2,
+            figure: expect.objectContaining({
+              mimetype: 'image/png',
+              key: figureKey,
+            }),
           }),
         ]),
       );
@@ -164,7 +187,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(GET) /products/:id', () => {
-    test('should get an user', async () => {
+    test('should get a product', async () => {
       const response = await request(app.getHttpServer())
         .get(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
@@ -176,6 +199,10 @@ describe('ProductsController (e2e)', () => {
         description: 'confy',
         quantity: 10,
         price: 2,
+        figure: expect.objectContaining({
+          mimetype: 'image/png',
+          key: figureKey,
+        }),
       });
     });
 
@@ -192,7 +219,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(PATCH) /products/:id', () => {
-    test('should update an user', async () => {
+    test('should update a product', async () => {
       const response = await request(app.getHttpServer())
         .patch(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
@@ -205,6 +232,10 @@ describe('ProductsController (e2e)', () => {
         description: 'confy',
         quantity: 8,
         price: 2,
+        figure: expect.objectContaining({
+          mimetype: 'image/png',
+          key: figureKey,
+        }),
       });
     });
 
@@ -222,7 +253,7 @@ describe('ProductsController (e2e)', () => {
   });
 
   describe('(DELETE) /products/:id', () => {
-    test('should delete an user', async () => {
+    test('should delete a product', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products/${productId}`)
         .auth(jwtToken, { type: 'bearer' })
@@ -234,6 +265,10 @@ describe('ProductsController (e2e)', () => {
         description: 'confy',
         quantity: 8,
         price: 2,
+        figure: expect.objectContaining({
+          mimetype: 'image/png',
+          key: figureKey,
+        }),
       });
     });
 
