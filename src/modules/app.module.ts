@@ -25,7 +25,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test')
-          .default('test'),
+          .default('development'),
         DATABASE_USER: Joi.string().required(),
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_HOST: Joi.string().required(),

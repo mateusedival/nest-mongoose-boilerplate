@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=nest
+      - MONGO_INITDB_ROOT_PASSWORD=nest
+    ports: 
+      - "27018:27017"
+    volumes: 
+      - "/home/mateusedival/Documents/mongo:/data/db" 
+    networks:
+      - app-network
+  api: 
+    build: .
+    environment:
+      - DATABASE_HOST=mongodb:27017
+    ports:
+      - "8000:3002"
+    networks:
+      - app-network
+    depends_on:
+      - mongodb
+networks:
+  app-network:
+    driver: bridge
+   
