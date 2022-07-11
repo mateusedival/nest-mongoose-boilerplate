@@ -44,25 +44,17 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-<<<<<<< Updated upstream
-    "swagger-ui-express": "^4.3.0"
-=======
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
     "@types/multer": "^1.4.7",
     "@types/jest": "27.0.2"
 
->>>>>>> Stashed changes
   },
   "devDependencies": {
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
     "@types/cache-manager": "^3.4.3",
     "@types/express": "^4.17.13",
-<<<<<<< Updated upstream
-    "@types/jest": "27.0.2",
-=======
->>>>>>> Stashed changes
     "@types/node": "^16.0.0",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
