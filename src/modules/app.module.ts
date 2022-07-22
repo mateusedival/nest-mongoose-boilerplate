@@ -12,6 +12,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import LogsMiddleware from '../shared/middlewares/logs.middleware';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { MyPrometheusController } from './app.controller';
 
 @Module({
   imports: [
@@ -20,6 +22,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ProductsModule,
     CacheModule.register({
       isGlobal: true,
+    }),
+    PrometheusModule.register({
+      controller: MyPrometheusController,
+      defaultMetrics: { enabled: true },
     }),
     ConfigModule.forRoot({
       validationSchema: Joi.object({

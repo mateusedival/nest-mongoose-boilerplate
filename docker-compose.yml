@@ -22,6 +22,20 @@ services:
       - app-network
     depends_on:
       - mongodb
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - /etc/prometheus:/etc/prometheus
+    ports:
+      - 9090:9090
+    networks:
+      - app-network
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - 3000:3000
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge
